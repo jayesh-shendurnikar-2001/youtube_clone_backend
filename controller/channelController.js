@@ -38,3 +38,33 @@ export const createChannel = async (req, res) => {
       res.status(500).json({ message: "Server error" });
     }
   };
+
+ export const getChannelById = async (req, res) => {
+    try {
+      const channel = await Channel.findById(req.params.id)
+        .populate("owner", "username avatar")
+        .populate({
+          path: "videos",
+          populate: { path: "channel", select: "channelName" },
+        });
+  
+      if (!channel) {
+        return res.status(404).json({ message: "Channel not found" });
+      }
+  
+      res.json(channel);
+    } catch (error) {
+      console.error("Get channel error:", error.message);
+      res.status(500).json({ message: "Server error" });
+    }
+  };
+  
+ export const getChannelsByUser = async (req, res) => {
+    try {
+      const channels = await Channel.find({ owner: req.params.userId });
+      res.json(channels);
+    } catch (error) {
+      console.error("Get user channels error:", error.message);
+      res.status(500).json({ message: "Server error" });
+    }
+  };
