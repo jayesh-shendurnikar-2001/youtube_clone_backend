@@ -1,6 +1,5 @@
 // controllers/commentController.js – Comment CRUD
-import Comment from "../models/Comments"
-
+import Comment from "../models/Comments.js"
 
 // @route   GET /api/comments/:videoId
 // @access  Public
