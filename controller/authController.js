@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 export const registerUser = async (req , res) => {
     try {
-        const { username, email, password } = req.body;
+        const { username, email, password , avatar } = req.body;
     
         if (!username || !email || !password) {
           return res.status(400).json({ message: "Please fill in all fields" });
@@ -37,6 +37,7 @@ export const registerUser = async (req , res) => {
           username,
           email,
           password: hashedPassword,
+          avatar,
         });
     
         res.status(201).json({
