@@ -23,6 +23,7 @@ export const getVideos = async (req, res) => {
         const videos = await Video.find(filter)
             .populate("channel", "channelName")
             .populate("uploader", "username")
+            .populate("uploader", "username avatar")
             .sort({ createdAt: -1 });
 
             res.json({
