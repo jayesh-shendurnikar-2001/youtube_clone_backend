@@ -68,3 +68,45 @@ export const createChannel = async (req, res) => {
       res.status(500).json({ message: "Server error" });
     }
   };
+
+  export const editChannel = async (req, res) => {
+    try {
+      const { channelName, description, channelBanner } = req.body;
+  
+      const channel = await Channel.findById(req.params.id);
+  
+      if (!channel) {
+        return res.status(404).json({ message: "Channel not found" });
+      }
+  
+      // check ownership
+      if (channel.owner.toString() !== req.user._id.toString()) {
+        return res.status(403).json({ message: "Not authorized" });
+      }
+  
+      // check if new channel name already exists
+      if (channelName && channelName !== channel.channelName) {
+        const existing = await Channel.findOne({ channelName });
+        if (existing) {
+          return res.status(400).json({ message: "Channel name already taken" });
+        }
+        channel.channelName = channelName;
+      }
+  
+      if (description !== undefined) {
+        channel.description = description;
+      }
+  
+      if (channelBanner !== undefined) {
+        channel.channelBanner = channelBanner;
+      }
+  
+      const updatedChannel = await channel.save();
+  
+      res.json(updatedChannel);
+  
+    } catch (error) {
+      console.error("Edit channel error:", error.message);
+      res.status(500).json({ message: "Server error" });
+    }
+  };
