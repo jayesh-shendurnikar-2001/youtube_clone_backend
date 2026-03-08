@@ -17,6 +17,11 @@ The backend connects with the **React frontend** and stores data in **MongoDB**.
 Frontend Repository:
 https://github.com/jayesh-shendurnikar-2001/youtube_clone_frontend
 
+
+### Seed Database
+Run the following command to insert sample users, channels, videos, and comments into MongoDB.
+
+npm run seed   (or)   node seed.js
 ---
 
 # 🚀 Features
