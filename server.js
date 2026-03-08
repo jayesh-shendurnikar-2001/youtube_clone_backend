@@ -8,7 +8,7 @@ import videoRoutes from "./routes/videoRoutes.js";
 import cors from "cors";
 
 const app = express();
-
+// allow cors
 app.use(
   cors({
     origin: "*",
@@ -19,6 +19,8 @@ app.use(express.json());
 dotenv.config();
 connectDb();
 
+
+// api start routes
 app.use("/api/auth", authRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/channels", channelRoutes);

@@ -2,27 +2,31 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 
-
+// register user 
 export const registerUser = async (req , res) => {
     try {
         const { username, email, password , avatar } = req.body;
     
+        // if username , email and password is not fill
         if (!username || !email || !password) {
           return res.status(400).json({ message: "Please fill in all fields" });
         }
     
+        // check length of name greater than 3
         if (username.length < 3) {
           return res
             .status(400)
             .json({ message: "Username must be at least 3 characters" });
         }
     
+        // password length is greater than 6
         if (password.length < 6) {
           return res
             .status(400)
             .json({ message: "Password must be at least 6 characters" });
         }
     
+        // find existing user
         const existingUser = await User.findOne({ email });
     
         if (existingUser) {
@@ -31,8 +35,10 @@ export const registerUser = async (req , res) => {
           });
         }
     
+        // bcryprt password
         const hashedPassword = await bcrypt.hash(password, 10);
     
+        // create user
         const user = await User.create({
           username,
           email,
@@ -40,6 +46,7 @@ export const registerUser = async (req , res) => {
           avatar,
         });
     
+        // send back response
         res.status(201).json({
           _id: user._id,
           username: user.username,
@@ -52,6 +59,8 @@ export const registerUser = async (req , res) => {
       }
 }
 
+
+// login user
 export const loginUser = async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -68,12 +77,15 @@ export const loginUser = async (req, res) => {
         return res.status(401).json({ message: "Invalid email or password" });
       }
   
+      // compare stored password with user enter password
       const isMatch = await bcrypt.compare(password, user.password);
   
+      // if not match
       if (!isMatch) {
         return res.status(401).json({ message: "Invalid email or password" });
       }
   
+      // jwt token
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
         expiresIn: "7d",
       });
@@ -92,7 +104,7 @@ export const loginUser = async (req, res) => {
     }
   };
 
-
+// get user data
   export const getMe = async (req, res) => {
     try {
       const user = await User.findById(req.user._id);

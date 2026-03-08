@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-
+// db connection function
 async function connectDb(){
 
     try {

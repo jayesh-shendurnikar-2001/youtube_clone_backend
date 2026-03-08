@@ -1,6 +1,7 @@
 // models/Channel.js – Channel model
 import mongoose from "mongoose";
 
+// channel schema
 const channelSchema = new mongoose.Schema(
     {
         channelName: {

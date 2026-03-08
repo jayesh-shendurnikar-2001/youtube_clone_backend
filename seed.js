@@ -1,12 +1,11 @@
 // seed.js – Database seeder with sample data
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const bcrypt = require("bcryptjs");
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import User from "./models/User.js";
+import Channel from "./models/Channel.js";
+import Video from "./models/Video.js";
+import Comment from "./models/Comments.js";
 
-const User = require("./models/User");
-const Channel = require("./models/Channel");
-const Video = require("./models/Video");
-const Comment = require("./models/Comment");
 dotenv.config();
 
 const seedDB = async () => {
@@ -79,147 +78,321 @@ const seedDB = async () => {
 
         // Create videos (using real YouTube embed URLs and thumbnails)
         const videosData = [
+
+            /* EDUCATION */
+            
             {
-                title: "Learn React in 30 Minutes",
-                description: "A quick tutorial to get started with React. Perfect for beginners who want to understand components, props, and state.",
-                videoUrl: "https://www.youtube.com/embed/hQAHSlTtcmY",
-                thumbnailUrl: "https://img.youtube.com/vi/hQAHSlTtcmY/maxresdefault.jpg",
-                category: "Education",
-                channel: channels[0]._id,
-                uploader: users[0]._id,
-                views: 15200,
+            title: "Learn React in 30 Minutes",
+            description: "Quick beginner React tutorial.",
+            videoUrl: "https://www.youtube.com/embed/hQAHSlTtcmY",
+            thumbnailUrl: "https://img.youtube.com/vi/hQAHSlTtcmY/maxresdefault.jpg",
+            category: "Education",
+            channel: channels[0]._id,
+            uploader: users[0]._id,
+            views: 15000
             },
+            
             {
-                title: "JavaScript ES6+ Features Explained",
-                description: "Deep dive into modern JavaScript features including arrow functions, destructuring, promises, and more.",
-                videoUrl: "https://www.youtube.com/embed/NCwa_xi0Uuc",
-                thumbnailUrl: "https://img.youtube.com/vi/NCwa_xi0Uuc/maxresdefault.jpg",
-                category: "Education",
-                channel: channels[0]._id,
-                uploader: users[0]._id,
-                views: 23400,
+            title: "JavaScript ES6 Explained",
+            description: "Modern JS features explained clearly.",
+            videoUrl: "https://www.youtube.com/embed/NCwa_xi0Uuc",
+            thumbnailUrl: "https://img.youtube.com/vi/NCwa_xi0Uuc/maxresdefault.jpg",
+            category: "Education",
+            channel: channels[0]._id,
+            uploader: users[0]._id,
+            views: 22000
             },
+            
             {
-                title: "Build a Full Stack App with MERN",
-                description: "Complete guide to building a production-ready application with MongoDB, Express, React and Node.js.",
-                videoUrl: "https://www.youtube.com/embed/7CqJlxBYj-M",
-                thumbnailUrl: "https://img.youtube.com/vi/7CqJlxBYj-M/maxresdefault.jpg",
-                category: "Education",
-                channel: channels[0]._id,
-                uploader: users[0]._id,
-                views: 8900,
+            title: "CSS Grid vs Flexbox",
+            description: "When to use CSS Grid or Flexbox.",
+            videoUrl: "https://www.youtube.com/embed/hs3piaN4b5I",
+            thumbnailUrl: "https://img.youtube.com/vi/hs3piaN4b5I/maxresdefault.jpg",
+            category: "Education",
+            channel: channels[0]._id,
+            uploader: users[0]._id,
+            views: 45000
             },
+            
             {
-                title: "Lofi Hip Hop Radio - Beats to Relax/Study To",
-                description: "Chill lofi beats perfect for studying, coding, or relaxing. Enjoy the vibes!",
-                videoUrl: "https://www.youtube.com/embed/jfKfPfyJRdk",
-                thumbnailUrl: "https://img.youtube.com/vi/jfKfPfyJRdk/maxresdefault.jpg",
-                category: "Music",
-                channel: channels[1]._id,
-                uploader: users[1]._id,
-                views: 1250000,
+            title: "Build MERN Stack App",
+            description: "Complete MERN stack tutorial.",
+            videoUrl: "https://www.youtube.com/embed/7CqJlxBYj-M",
+            thumbnailUrl: "https://img.youtube.com/vi/7CqJlxBYj-M/maxresdefault.jpg",
+            category: "Education",
+            channel: channels[0]._id,
+            uploader: users[0]._id,
+            views: 9000
             },
+            
+            /* MUSIC */
+            
             {
-                title: "Top 10 Guitar Riffs of All Time",
-                description: "Exploring the greatest guitar riffs in rock history. From classic rock to modern metal.",
-                videoUrl: "https://www.youtube.com/embed/DmeUuoxTJdg",
-                thumbnailUrl: "https://img.youtube.com/vi/DmeUuoxTJdg/maxresdefault.jpg",
-                category: "Music",
-                channel: channels[1]._id,
-                uploader: users[1]._id,
-                views: 67200,
+            title: "Lofi Hip Hop Radio",
+            description: "Chill beats for coding and studying.",
+            videoUrl: "https://www.youtube.com/embed/jfKfPfyJRdk",
+            thumbnailUrl: "https://img.youtube.com/vi/jfKfPfyJRdk/maxresdefault.jpg",
+            category: "Music",
+            channel: channels[1]._id,
+            uploader: users[1]._id,
+            views: 1200000
             },
+            
             {
-                title: "iPhone 16 Pro Max Review - The Ultimate Smartphone?",
-                description: "Full review of Apple's latest flagship. Camera test, performance benchmarks, and battery life comparison.",
-                videoUrl: "https://www.youtube.com/embed/dtp6b76pMak",
-                thumbnailUrl: "https://img.youtube.com/vi/dtp6b76pMak/maxresdefault.jpg",
-                category: "Science & Tech",
-                channel: channels[2]._id,
-                uploader: users[2]._id,
-                views: 456000,
+            title: "Top Guitar Riffs",
+            description: "Best guitar riffs ever made.",
+            videoUrl: "https://www.youtube.com/embed/DmeUuoxTJdg",
+            thumbnailUrl: "https://img.youtube.com/vi/DmeUuoxTJdg/maxresdefault.jpg",
+            category: "Music",
+            channel: channels[1]._id,
+            uploader: users[1]._id,
+            views: 67000
             },
+            
             {
-                title: "Best Gaming Setup Tour 2024",
-                description: "Check out my ultimate gaming setup! RGB lights, ultrawide monitors, and custom PC build.",
-                videoUrl: "https://www.youtube.com/embed/G6dMioYm-lk",
-                thumbnailUrl: "https://img.youtube.com/vi/G6dMioYm-lk/maxresdefault.jpg",
-                category: "Gaming",
-                channel: channels[2]._id,
-                uploader: users[2]._id,
-                views: 89300,
+            title: "Epic Instrumental Music",
+            description: "Motivational instrumental music.",
+            videoUrl: "https://www.youtube.com/embed/WNeLUngb-Xg",
+            thumbnailUrl: "https://img.youtube.com/vi/WNeLUngb-Xg/maxresdefault.jpg",
+            category: "Music",
+            channel: channels[1]._id,
+            uploader: users[1]._id,
+            views: 83000
             },
+            
             {
-                title: "Top 10 Goals in Football History",
-                description: "The most incredible, jaw-dropping goals ever scored on the football pitch.",
-                videoUrl: "https://www.youtube.com/embed/JgSNSpoGFQo",
-                thumbnailUrl: "https://img.youtube.com/vi/JgSNSpoGFQo/maxresdefault.jpg",
-                category: "Sports",
-                channel: channels[1]._id,
-                uploader: users[1]._id,
-                views: 342000,
+            title: "Relaxing Piano Music",
+            description: "Calm piano music for relaxation.",
+            videoUrl: "https://www.youtube.com/embed/1ZYbU82GVz4",
+            thumbnailUrl: "https://img.youtube.com/vi/1ZYbU82GVz4/maxresdefault.jpg",
+            category: "Music",
+            channel: channels[1]._id,
+            uploader: users[1]._id,
+            views: 90000
             },
+            
+            /* GAMING */
+            
             {
-                title: "Breaking News: AI Takes Over the World",
-                description: "Just kidding! But AI is changing everything. Here's a roundup of the biggest AI news this week.",
-                videoUrl: "https://www.youtube.com/embed/cdiD-9MMpb0",
-                thumbnailUrl: "https://img.youtube.com/vi/cdiD-9MMpb0/maxresdefault.jpg",
-                category: "News",
-                channel: channels[2]._id,
-                uploader: users[2]._id,
-                views: 125600,
+            title: "Best Gaming Setup Tour",
+            description: "Ultimate RGB gaming setup.",
+            videoUrl: "https://www.youtube.com/embed/G6dMioYm-lk",
+            thumbnailUrl: "https://img.youtube.com/vi/G6dMioYm-lk/maxresdefault.jpg",
+            category: "Gaming",
+            channel: channels[2]._id,
+            uploader: users[2]._id,
+            views: 89000
             },
+            
             {
-                title: "Stand-Up Comedy Special: Tech Edition",
-                description: "When programmers do stand-up comedy. Jokes about bugs, deadlines, and stack overflow.",
-                videoUrl: "https://www.youtube.com/embed/nzIKSkbPlYE",
-                thumbnailUrl: "https://img.youtube.com/vi/nzIKSkbPlYE/maxresdefault.jpg",
-                category: "Entertainment",
-                channel: channels[0]._id,
-                uploader: users[0]._id,
-                views: 78200,
+            title: "Minecraft Survival Episode 1",
+            description: "Starting new survival world.",
+            videoUrl: "https://www.youtube.com/embed/bUZN6hCfKyE",
+            thumbnailUrl: "https://img.youtube.com/vi/bUZN6hCfKyE/maxresdefault.jpg",
+            category: "Gaming",
+            channel: channels[2]._id,
+            uploader: users[2]._id,
+            views: 203000
             },
+            
             {
-                title: "Minecraft Survival Let's Play - Episode 1",
-                description: "Starting a brand new Minecraft survival world! Join me on this adventure.",
-                videoUrl: "https://www.youtube.com/embed/bUZN6hCfKyE",
-                thumbnailUrl: "https://img.youtube.com/vi/bUZN6hCfKyE/maxresdefault.jpg",
-                category: "Gaming",
-                channel: channels[2]._id,
-                uploader: users[2]._id,
-                views: 203000,
+            title: "Valorant Gameplay Highlights",
+            description: "Top Valorant plays.",
+            videoUrl: "https://www.youtube.com/embed/hhhlGxj0y3M",
+            thumbnailUrl: "https://img.youtube.com/vi/hhhlGxj0y3M/maxresdefault.jpg",
+            category: "Gaming",
+            channel: channels[2]._id,
+            uploader: users[2]._id,
+            views: 78000
             },
+            
             {
-                title: "CSS Grid vs Flexbox - When to Use What",
-                description: "A comprehensive comparison of CSS Grid and Flexbox with practical examples.",
-                videoUrl: "https://www.youtube.com/embed/hs3piaN4b5I",
-                thumbnailUrl: "https://img.youtube.com/vi/hs3piaN4b5I/maxresdefault.jpg",
-                category: "Education",
-                channel: channels[0]._id,
-                uploader: users[0]._id,
-                views: 45100,
+            title: "GTA 5 Crazy Stunts",
+            description: "Amazing GTA 5 stunt compilation.",
+            videoUrl: "https://www.youtube.com/embed/n3Xv_g3g-mA",
+            thumbnailUrl: "https://img.youtube.com/vi/n3Xv_g3g-mA/maxresdefault.jpg",
+            category: "Gaming",
+            channel: channels[2]._id,
+            uploader: users[2]._id,
+            views: 91000
             },
+            
+            /* SPORTS */
+            
             {
-                title: "Epic Mountain Biking Trail Ride",
-                description: "Riding the most extreme mountain biking trails in the world. GoPro POV footage.",
-                videoUrl: "https://www.youtube.com/embed/ygGrMcEz3Jk",
-                thumbnailUrl: "https://img.youtube.com/vi/ygGrMcEz3Jk/maxresdefault.jpg",
-                category: "Sports",
-                channel: channels[1]._id,
-                uploader: users[1]._id,
-                views: 198000,
+            title: "Top 10 Football Goals",
+            videoUrl: "https://www.youtube.com/embed/JgSNSpoGFQo",
+            thumbnailUrl: "https://img.youtube.com/vi/JgSNSpoGFQo/maxresdefault.jpg",
+            description: "Best football goals ever.",
+            category: "Sports",
+            channel: channels[1]._id,
+            uploader: users[1]._id,
+            views: 340000
             },
+            
             {
-                title: "How AI is Revolutionizing Healthcare",
-                description: "Exploring how artificial intelligence is transforming diagnostics, drug discovery, and patient care.",
-                videoUrl: "https://www.youtube.com/embed/Gbnep6RJinQ",
-                thumbnailUrl: "https://img.youtube.com/vi/Gbnep6RJinQ/maxresdefault.jpg",
-                category: "Science & Tech",
-                channel: channels[2]._id,
-                uploader: users[2]._id,
-                views: 312000,
+            title: "Epic Mountain Biking",
+            videoUrl: "https://www.youtube.com/embed/ygGrMcEz3Jk",
+            thumbnailUrl: "https://img.youtube.com/vi/ygGrMcEz3Jk/maxresdefault.jpg",
+            description: "Extreme biking trails.",
+            category: "Sports",
+            channel: channels[1]._id,
+            uploader: users[1]._id,
+            views: 198000
             },
-        ];
+            
+            {
+            title: "Best Cricket Moments",
+            videoUrl: "https://www.youtube.com/embed/b9kK6sYx0n4",
+            thumbnailUrl: "https://img.youtube.com/vi/b9kK6sYx0n4/maxresdefault.jpg",
+            description: "Amazing cricket highlights.",
+            category: "Sports",
+            channel: channels[1]._id,
+            uploader: users[1]._id,
+            views: 210000
+            },
+            
+            /* NEWS */
+            
+            {
+            title: "AI Takes Over the World",
+            videoUrl: "https://www.youtube.com/embed/cdiD-9MMpb0",
+            thumbnailUrl: "https://img.youtube.com/vi/cdiD-9MMpb0/maxresdefault.jpg",
+            description: "AI news roundup.",
+            category: "News",
+            channel: channels[2]._id,
+            uploader: users[2]._id,
+            views: 120000
+            },
+            
+            {
+            title: "Global Tech News Today",
+            videoUrl: "https://www.youtube.com/embed/qj8hX3y9s8A",
+            thumbnailUrl: "https://img.youtube.com/vi/qj8hX3y9s8A/maxresdefault.jpg",
+            description: "Latest technology updates.",
+            category: "News",
+            channel: channels[2]._id,
+            uploader: users[2]._id,
+            views: 89000
+            },
+            
+            {
+            title: "World News Headlines",
+            videoUrl: "https://www.youtube.com/embed/Yh0AhrY9GjA",
+            thumbnailUrl: "https://img.youtube.com/vi/Yh0AhrY9GjA/maxresdefault.jpg",
+            description: "Major world events today.",
+            category: "News",
+            channel: channels[2]._id,
+            uploader: users[2]._id,
+            views: 110000
+            },
+            
+            /* ENTERTAINMENT */
+            
+            {
+            title: "Stand Up Comedy Tech Edition",
+            videoUrl: "https://www.youtube.com/embed/nzIKSkbPlYE",
+            thumbnailUrl: "https://img.youtube.com/vi/nzIKSkbPlYE/maxresdefault.jpg",
+            description: "Programming jokes.",
+            category: "Entertainment",
+            channel: channels[0]._id,
+            uploader: users[0]._id,
+            views: 78000
+            },
+            
+            {
+            title: "Funny Coding Memes",
+            videoUrl: "https://www.youtube.com/embed/Wb4sC2C3zL4",
+            thumbnailUrl: "https://img.youtube.com/vi/Wb4sC2C3zL4/maxresdefault.jpg",
+            description: "Developer memes compilation.",
+            category: "Entertainment",
+            channel: channels[0]._id,
+            uploader: users[0]._id,
+            views: 56000
+            },
+            
+            {
+            title: "Best Movie Trailers 2024",
+            videoUrl: "https://www.youtube.com/embed/EXeTwQWrcwY",
+            thumbnailUrl: "https://img.youtube.com/vi/EXeTwQWrcwY/maxresdefault.jpg",
+            description: "Upcoming movie trailers.",
+            category: "Entertainment",
+            channel: channels[0]._id,
+            uploader: users[0]._id,
+            views: 130000
+            },
+            
+            /* SCIENCE & TECH */
+            
+            {
+            title: "iPhone 16 Pro Max Review",
+            videoUrl: "https://www.youtube.com/embed/dtp6b76pMak",
+            thumbnailUrl: "https://img.youtube.com/vi/dtp6b76pMak/maxresdefault.jpg",
+            description: "Full smartphone review.",
+            category: "Science & Tech",
+            channel: channels[2]._id,
+            uploader: users[2]._id,
+            views: 456000
+            },
+            
+            {
+            title: "How AI is Revolutionizing Healthcare",
+            videoUrl: "https://www.youtube.com/embed/Gbnep6RJinQ",
+            thumbnailUrl: "https://img.youtube.com/vi/Gbnep6RJinQ/maxresdefault.jpg",
+            description: "AI in healthcare industry.",
+            category: "Science & Tech",
+            channel: channels[2]._id,
+            uploader: users[2]._id,
+            views: 312000
+            },
+            
+            {
+            title: "Future of Artificial Intelligence",
+            videoUrl: "https://www.youtube.com/embed/2ePf9rue1Ao",
+            thumbnailUrl: "https://img.youtube.com/vi/2ePf9rue1Ao/maxresdefault.jpg",
+            description: "What AI will look like in 2030.",
+            category: "Science & Tech",
+            channel: channels[2]._id,
+            uploader: users[2]._id,
+            views: 205000
+            },
+            
+            /* COMEDY */
+            
+            {
+            title: "Funny Cat Compilation",
+            videoUrl: "https://www.youtube.com/embed/J---aiyznGQ",
+            thumbnailUrl: "https://img.youtube.com/vi/J---aiyznGQ/maxresdefault.jpg",
+            description: "Cats doing hilarious things.",
+            category: "Comedy",
+            channel: channels[0]._id,
+            uploader: users[0]._id,
+            views: 900000
+            },
+            
+            {
+            title: "Try Not To Laugh Challenge",
+            videoUrl: "https://www.youtube.com/embed/L_jWHffIx5E",
+            thumbnailUrl: "https://img.youtube.com/vi/L_jWHffIx5E/maxresdefault.jpg",
+            description: "Impossible laughing challenge.",
+            category: "Comedy",
+            channel: channels[0]._id,
+            uploader: users[0]._id,
+            views: 450000
+            },
+            
+            {
+            title: "Comedy Pranks Compilation",
+            videoUrl: "https://www.youtube.com/embed/xvFZjo5PgG0",
+            thumbnailUrl: "https://img.youtube.com/vi/xvFZjo5PgG0/maxresdefault.jpg",
+            description: "Funniest prank moments.",
+            category: "Comedy",
+            channel: channels[0]._id,
+            uploader: users[0]._id,
+            views: 320000
+            }
+            
+            ];
 
         const videos = await Video.create(videosData);
         console.log("Videos created.");

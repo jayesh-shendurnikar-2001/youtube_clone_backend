@@ -1,6 +1,8 @@
 // models/Video.js – Video model with category for filtering
 import mongoose from "mongoose";
 
+
+// video schema
 const videoSchema = new mongoose.Schema(
     {
         title: {

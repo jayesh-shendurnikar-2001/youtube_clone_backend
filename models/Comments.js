@@ -1,6 +1,7 @@
 // models/Comment.js – Comment model
 import mongoose from "mongoose";
 
+// comment schema
 const commentSchema = new mongoose.Schema(
     {
         video: {
